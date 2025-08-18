@@ -1,0 +1,368 @@
+/* Reset based on CSS Remedy */
+
+/* Global Remedies */
+
+/* Use border-box by default, globally */
+*, ::before, ::after { 
+    box-sizing: border-box; 
+  }
+  
+  /*
+  * Consistent line spacing...
+  * CSS Inline Layout Module Level 3: https://drafts.csswg.org/css-inline-3/#line-sizing-property
+  */
+  html { 
+    line-height: 1.6 ; 
+  }
+  
+  /* Remove the tiny space around the edge of the page */
+  body { 
+    margin: 0; 
+  }
+  
+  
+  /* Headings */
+  
+  /* Balance headings */
+  h1, h2, h3, h4, h5, h6, blockquote {
+    /*Not yet supported in Chrome & Edge - Jume 2024*/
+    /*text-wrap: balance;*/
+  }
+  
+  /* Switch to rem units for headings */
+  /* @@@ Initial values are based on existing browser defaults */
+  h1 { font-size: 2rem; }
+  h2 { font-size: 1.5rem; }
+  h3 { font-size: 1.17rem; }
+  h4 { font-size: 1.00rem; }
+  h5 { font-size: 0.83rem; }
+  h6 { font-size: 0.67rem; }
+  
+  /* Keep h1 margins consistent, even when nested */
+  h1 { margin: 0.67em 0; }
+  
+  
+  /* Typography */
+  
+  /* Overflow by default is bad */
+  pre { white-space: pre-wrap; }
+  
+  /*
+  * 1. Solid, thin horizontal rules
+  * 2. Remove Firefox `color: gray`
+  * 3. Remove default 1 pixel height, and common `overflow: hidden`
+  */
+  hr {
+    border-style: solid;
+    border-width: .01em 0 0;
+    color: inherit;
+    height: 0;
+    overflow: visible;
+  }
+  
+  
+  /* Embedded Elements */
+  
+  /*
+  * 1. Block display is usually what we want
+  * 2. Remove strange space-below when inline
+  * 3. Responsive by default
+  */
+  svg, video, canvas, audio, iframe, embed, object {
+    display: block;
+    max-width: 100%;
+  }
+  
+  /*
+  * Maintain intrinsic aspect ratios when `max-width` is applied
+  * (iframe, embed, and object have no intrinsic ratio, set height explicitly)
+  */
+  svg, video, canvas {
+    height: auto;
+  }
+  
+  /*
+   * From @csswizardry 
+   * https://twitter.com/csswizardry/status/1717841334462005661
+   * 10/27/2023
+   * max-width & height: Allow for fluid image sizing while maintaining aspect ratio governed by width/height attributes
+   * vertical-align: Remove ‘phantom’ whitespace
+   * font-style: Italicise alt text to visually offset it from surrounding copy
+   * background-repeat & background-size: Set up backgrounds for optional LQIP
+   * shape-margin: Set up margin for optional `shape-outside`
+   */
+  img {
+    max-width: 100%;
+    height: auto;
+    vertical-align: middle;
+    font-style: italic;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+  
+  
+  /*
+  * There is no good reason elements default to 300 pixels,
+  * and audio files are unlikely to come with a width attribute
+  */
+  audio { width: 100%; }
+  
+  
+  /* Old Browsers
+  ***************/
+  
+  /* Remove the border on images inside links in IE 10 and earlier */
+  img { border-style: none; }
+  
+  /* Hide the overflow in IE 10 and earlier */
+  svg { overflow: hidden; }
+  
+  /* Default block display on HTML5 elements */
+  article, aside, figcaption, figure, footer, header, hgroup, main, nav, section {
+    display: block;
+  }
+  
+  /* Behind flag in Chromium 20240125
+  textarea { 
+    field-sizing: content;
+  }
+  */
+  
+  /*
+  * 1. Add the correct box sizing in IE 10
+  * 2. Remove the padding in IE 10
+  */
+  [type='checkbox'],
+  [type='radio'] {
+    box-sizing: border-box;
+    padding: 0;
+  }
+  
+  /* reduce animation for users that don't like it */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+
+body {
+    background-color: #ecf0f1; /* Soft background */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 100%;
+    max-height: 3.76rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    color: #fff;
+    padding: 0 2rem;
+    background-color: #2c3e50;
+}
+
+nav li {
+    list-style: none;    
+}
+
+nav a {
+    text-decoration: none;
+    color: #ecf0f1;
+    font-size: 1rem;
+    transition: color 0.3s;
+}
+
+nav a:hover {
+    color: #1abc9c;
+}
+
+nav h1 {
+    color: #ecf0f1;   
+    font-size: 1.5rem; 
+}
+
+h2{
+    text-align: center;
+    color: #2c3e50;
+}
+
+p {
+    color: #333;
+    text-align: center;
+}
+
+main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    flex-wrap: wrap;
+    margin: 0 auto;
+    padding: 0 2rem;
+    gap: 1.5rem;
+}
+
+.text-area, .text-humanized {
+    width: 45%;
+    min-height: 26rem;
+    color: #2c3e50;
+    border: 0.1875rem solid #ccc;
+    box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.1);        
+    font-size: 1.125rem;       
+    line-height: 1.6;  
+    border-radius: 0.5rem;
+    background-color: #fff;
+}
+
+.text-humanized {
+  min-height: 32rem;
+}
+
+.textAreaDiv {
+  max-width: 100%;
+  min-height: 26rem;
+  margin: auto;
+  font-family: sans-serif;
+  position: relative;
+}
+
+textarea {
+  width: 100%;
+  min-height: 26rem; 
+  padding: 0.8rem;
+  font-size: 1rem;
+  resize: none;
+  border: none;
+  outline: none;
+}
+
+.container-btn {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
+
+.container-btn button {
+    width: 19rem;
+    height: 2rem;
+    font-weight: bold;
+    background-color: #2c3e50;
+    color: white;
+    border: none;
+    border-radius: 0.25rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.container-btn button:hover {
+    background-color: #16a085;
+}
+
+.icon-buttons {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 2rem;
+    width: 100%;
+    height: 5rem;
+    margin-bottom: 0;
+  }
+  
+#wordCount, #cross {
+    width: 20%;
+}
+
+#wordCount {
+  font-size: 0.8rem;
+  font-weight: bold;
+}
+
+#cross {
+  color: black;
+  cursor: pointer;
+}
+  .icon-box {
+    color: #2e7a7b;
+    text-align: center;
+    cursor: pointer;
+    margin-bottom: 2rem;
+    width: 20%;
+  }
+  
+  .icon-box i {
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .icon-box p {
+    margin: 0;
+    font-weight: bold;
+    font-size: 0.8rem;
+  }
+
+  .loader {
+  border: 6px solid #f3f3f3;
+  border-top: 6px solid #3498db;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  animation: spin 1s linear infinite;
+  margin: auto;
+}
+
+.output-container {
+  position: relative;
+  display: inline-block; /* shrink-wrap around textarea */
+  width: 100%; /* optional, match your layout */
+}
+
+#output-text {
+  width: 100%;
+  min-height: 26rem; /* adjust as needed */
+  padding-right: 3.75rem; /* leave space for the button */
+}
+
+#copy-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: #2c3e50;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 12px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+#copy-btn:hover {
+  background: #45a049;
+}
+
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+  
+  @media (max-width: 40rem) {
+	main {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .text-area, .text-humanized {
+        width: 100%;
+    }
+}

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, 
+    initial-scale=1.0">
+
+  <title>HumanizeAI - AI Humanizer Tool for Natural, Authentic Writing</title>
+  <meta name="description" content="HumanizeAI is a free AI humanizer tool 
+    that transforms AI-generated content into natural, authentic, and 
+    human-like writing.">
+  <meta name="author" content="Isaac Musuayi">
+
+  <!-- Canonical URL (to avoid duplicate content issues) -->
+  <link rel="canonical" href="https://yourdomain.com/">
+
+  <!-- Open Graph for social media sharing -->
+  <meta property="og:title" content="HumanizeAI - Free AI Humanizer Tool">
+  <meta property="og:description" content="Make AI text sound natural with 
+    HumanizeAI. Humanize your content for blogs, essays, and professional writing.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://yourdomain.com/">
+  <meta property="og:image" content="https://yourdomain.com/images/preview.png">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="HumanizeAI - Free AI Humanizer Tool">
+  <meta name="twitter:description" content="Turn AI-generated text into 
+    human-like writing with HumanizeAI.">
+  <meta name="twitter:image" content="https://yourdomain.com/images/preview.png">
+
+  <link rel="stylesheet" href="styles/styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+    <!-- This is the HTML for the navigation. -->
+    <nav aria-label='Main Navigation' class='menu' >
+        <h1>HumanizeAI<h1>
+        <ul class="nav-bar-elements">
+            <li><a href="index.php">Humanize</a></li>
+        </ul>
+    </nav>
+
+    <header>
+         <h2>Humanize your AI content</h2> 
+         <p>
+             Transform robotic AI-generated text into natural, authentic 
+             writing with our free HumanizeAI web app.
+         </p>
+    </header>
+   
+    <main>
+        <section class="text-area">
+            <section id="textAreaContainer" class="textAreaDiv">
+                <textarea id="text-input" placeholder="Your text here..."></textarea>
+            </section>
+            <section class="icon-buttons">
+                <section class="icon-box" id="icon-box">
+                    <label>
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <p>Upload File</p>
+                        <input type="file" id="upload-file" style="display: none">
+                    </label>
+                </section>
+                <p id="wordCount">0/600words</p>
+                <section id="cross" >✖️</section>
+            </section>     
+        </section>
+
+        <section class="text-humanized" id="text-humanized"></section>
+    </main>
+
+    <section class="container-btn">
+        <button id="humanize-btn">Humanize</button>
+    </section>
+
+    <section id="spinner" style="display: none;">
+        <p>Processing...</p>
+        <section class="loader"></section>
+    </section>
+    
+    <footer>
+        <p>&copy; 2025 HumanizeAI. All rights reserved.</p>
+    </footer>     
+    <script src="script.js"></script>   
+</body>
+</html>
