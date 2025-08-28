@@ -3,108 +3,94 @@ const app = express();
 const path = require('path');
 require('dotenv').config();
 
-const { OpenAI } = require('openai');
-const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+// 1. Import the OpenAI SDK (ensure it's installed)
+const OpenAI = require( "openai");
 
-// Middleware
+// 2. Initialize the DeepSeek client with your API key
+const openai = new OpenAI({
+  baseURL: 'https://api.deepseek.com',
+  apiKey: process.env.DEEPSEEK_API_KEY, // Make sure this is in your .env file
+});
+
+async function main(text) {
+  const prompt = `CRITICAL EDITING DIRECTIVES:
+
+ROLE: You are a professional editor with 15+ years experience refining content for major publications. You specialize in making technical, academic, or corporate writing sound authentically human.
+
+CORE MISSION: Transform this text into something that feels like it was written by a thoughtful, experienced human - not an AI or corporate committee.
+
+NON-NEGOTIABLE RULES:
+1. 🚫 ABSOLUTELY NO transitional adverbs (however, therefore, furthermore, additionally, moreover, consequently, thus, hence, nevertheless, nonetheless, subsequently, accordingly)
+2. 🚫 NO corporate buzzwords (leverage, utilize, synergize, paradigm, ecosystem, robust, scalable, innovative, cutting-edge, best-in-class)
+3. 🚫 NO passive voice unless absolutely necessary for meaning
+4. 🚫 NO "in order to" - just use "to"
+5. 🚫 NO "it is important to note that" or similar filler phrases
+6. 🚫 NO  "adages, saying or expressions" 
+
+REQUIRED ELEMENTS:
+✅ Use contractions naturally (it's, don't, we're)
+✅ Vary sentence length dramatically (some very short, some medium, some longer)
+✅ Add subtle emotion and personality appropriate to the context
+✅ Use specific, concrete language instead of abstractions
+✅ Create natural rhythm and flow that sounds spoken, not written
+✅ Include occasional sentence fragments for emphasis and natural cadence
+✅ Replace vague terms with precise, vivid language
+✅ Add a subtle poetic rhythm, without making it sound forced.
+
+
+TONE ADJUSTMENT: 
+- If technical: make it accessible but not dumbed down
+- If academic: make it engaging but still authoritative  
+- If corporate: make it direct and human, not bureaucratic
+- If creative: amplify the voice and emotional resonance
+
+FINISHING: Read it aloud in your mind. Does it sound like a real person talking? If not, rewrite until it does.
+
+TEXT TO TRANSFORM: "${text}"`;
+
+  const completion = await openai.chat.completions.create({
+    model: "deepseek-chat",
+    messages: [
+      {
+        role: "system",
+        content: `You are a world-class editor known for transforming stiff, robotic text into compelling, human-sounding content. Your edits preserve meaning while radically improving readability and emotional connection. You have a knack for finding the perfect balance between professionalism and approachability. `
+  },
+  {
+    role: "user",
+    content: prompt
+  }
+ ],
+ temperature: 0.8,
+ max_tokens: 2000
+});
+
+   const textHumanized =
+    completion.choices?.[0]?.message?.content?.trim() ||
+    completion.choices?.[0]?.messages?.[0]?.content?.trim();
+  return textHumanized;
+}
+
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
 
-// Configuration
-const HUMANIZATION_SETTINGS = {
-  TARGET_AI_SCORE: 5,
-  MAX_RETRIES: 2,
-  TEMPERATURE_RANGE: [0.85, 0.95]
-};
-
-// === Agent Prompts ===
-const PROMPTS = {
-  HUMANIZER: `You are a professional human rewriter. Rewrite the following text in a way that mimics natural, high-quality human writing.
-  Keep the tone professional but not overly polished.
-  Vary sentence structure, insert reasoning, and avoid generic or robotic phrasing.`,
-
-  Enhancer: `Enhance the following professional content by adding natural reasoning and context.
-  Include cause-effect logic, light elaboration, and smooth transitions.
-  Keep it concise, but make it feel like a human explaining a point.`,
-
-  Structural: `Rephrase this content with structural variety to avoid robotic rhythm.
-  Mix long and short sentences, vary punctuation, and include natural rhetorical questions where appropriate.`,
-
-  Sanitizer: `Scan the text and replace overused AI-like phrases (e.g., "in conclusion", "it is important to note") 
-  with more natural professional alternatives.
-  Keep meaning intact while sounding like a human.`,
-
-  Expansion: `Expand the content slightly by adding small clarifications, examples, or human-like elaborations.
-  Keep it professional, but don’t be afraid to add mild digressions or hedges.`,
-
-  Synomyne: `You are an human editor. Replace as many as words as possible with their synomyne if the change does not alter the meaning `,
-
-  Optimizer: `Optimize the text so it reads naturally while reducing AI-detection likelihood.
-  Avoid uniform sentence length, introduce slight imperfections, and allow small quirks.
-  Keep tone professional, but not mechanically polished.`,
-};
-
-// === Utility: run an "agent" ===
-async function runAgent(systemMessage, inputText, temperature = 0.9) {
-  const response = await openai.chat.completions.create({
-    model: 'gpt-4o',   // ✅ corrected model name
-    temperature,
-    messages: [
-      { role: "system", content: systemMessage },
-      { role: "user", content: inputText }
-    ]
-  });
-
-  return response.choices[0].message?.content?.trim() || "";
-}
-
-// === Endpoint ===
 app.post('/humanize', async (req, res) => {
   const { text } = req.body;
-  if (!text) return res.status(400).json({ error: "Text input required" });
 
   try {
-    let humanizedText = text;
 
-    for (let attempt = 0; attempt < HUMANIZATION_SETTINGS.MAX_RETRIES; attempt++) {
-         // Step 1: Humanizer
-      humanizedText = await runAgent(PROMPTS.HUMANIZER, humanizedText, HUMANIZATION_SETTINGS.TEMPERATURE_RANGE[1]);
-
-      // Step 2: Enhancer (takes output of Humanizer)
-      humanizedText = await runAgent(PROMPTS.Enhancer, humanizedText);
-
-      // Step 3: Structural (takes output of Enhancer)
-      humanizedText = await runAgent(PROMPTS.Structural, humanizedText);
-
-      // Step 4: Sanitizer (takes output of Structural)
-      humanizedText = await runAgent(PROMPTS.Sanitizer, humanizedText);
-
-      // Step 5: Expansion (takes output of Sanitizer)
-      humanizedText = await runAgent(PROMPTS.Expansion, humanizedText);
-
-      humanizedText = await runAgent(PROMPTS.Synomyne, humanizedText);
-
-      // Step 6: Optimizer (takes output of Expansion)
-      humanizedText = await runAgent(PROMPTS.Optimizer, humanizedText);
-
-    }
-
-    res.json({
-      humanizedText,
-      attempts: HUMANIZATION_SETTINGS.MAX_RETRIES,
-      reviewers: ["Humanizer", "Enhancer", "Structural", "Sanitizer", "Expansion", "Synomyne", "Optimizer"]
-    });
+    const humanizedText = await main(text);
+   
+    res.json({ humanizedText});
 
   } catch (error) {
-    console.error("Humanization Error:", error);
-    res.status(500).json({
-      error: "Humanization failed",
-      solution: "Try reducing text length or retries",
-      technical: error.message
-    });
+    console.error('DeepSeek API Error:', error);
+    res.status(500).json({ error: 'Failed to process your request.' });
   }
 });
 
-app.listen(process.env.PORT || 3000, () => {
-  console.log(`🕵️ Multi-Agent Humanizer active on port ${process.env.PORT || 3000}`);
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`✅ Server running on http://localhost:${PORT}`);
 });
+
+

@@ -2,12 +2,12 @@
   "dependencies": {
     "dotenv": "^17.2.1",
     "express": "^5.1.0",
-    "openai": "^5.10.2"
+    "node-fetch": "^3.3.2",
+    "openai": "^5.15.0"
   },
   "name": "humanize_project1",
   "version": "1.0.0",
   "main": "index.js",
-  "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

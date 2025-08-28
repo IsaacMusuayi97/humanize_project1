@@ -113,6 +113,10 @@ async function humanizeText () {
             body: JSON.stringify({text: textInput})
         });
 
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
         const result = await response.json();
 
         output.innerHTML = `
