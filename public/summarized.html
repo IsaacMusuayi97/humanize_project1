@@ -5,53 +5,51 @@
   <meta name="viewport" content="width=device-width, 
     initial-scale=1.0">
 
-  <!--SEO Title-->  
-  <title>Humanize AI Content | GrammarAI Free AI Humanizer Tool</title>
-
-   <!-- SEO Meta Description -->
-  <meta name="description" content="GrammarAI offers a free AI humanizer tool that transforms robotic AI-generated text into natural, authentic, and human-like writing. Perfect for blogs, essays, and professional content.">
-
-  <!-- Author -->
+  <title>Summarize Your Text Online | GrammarAI Free AI Summarizer</title>
+  <meta name="description" content="GrammarAI offers a free AI text 
+    summarizer to condense articles, essays, or documents into clear and 
+    concise summaries. Save time and improve readability with natural, 
+    human-like results.">
   <meta name="author" content="Isaac Musuayi">
 
   <!-- Canonical URL (to avoid duplicate content issues) -->
   <link rel="canonical" href="https://grammarai.org/">
 
-  <!-- Open Graph for social media sharing -->
-  <meta property="og:title" content="GrammarAI - Free AI Humanizer Tool">
-  <meta property="og:description" content="Make AI-generated text sound natural with GrammarAI. Humanize your content for blogs, essays, and professional writing.">
+   <!-- Open Graph for social media sharing -->
+  <meta property="og:title" content="GrammarAI - Free AI Summarizer Tool">
+  <meta property="og:description" content="Summarize your text with GrammarAI. Turn long content into clear, concise, and natural summaries for blogs, essays, and professional writing.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://grammarai.org/">
   <meta property="og:image" content="https://grammarai.org/images/preview.png">
 
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="GrammarAI - Free AI Humanizer Tool">
-  <meta name="twitter:description" content="Turn AI-generated text into natural, human-like writing with GrammarAI.">
+  <meta name="twitter:title" content="GrammarAI - Free AI Summarizer Tool">
+  <meta name="twitter:description" content="Free AI summarizer that condenses long text into human-like summaries. Try GrammarAI today.">
   <meta name="twitter:image" content="https://grammarai.org/images/preview.png">
 
-  <!-- Schema Markup for SEO -->
+   <!-- Schema Markup for SEO -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "WebApplication",
-    "name": "GrammarAI Humanizer",
+    "name": "GrammarAI Summarizer",
     "url": "https://grammarai.org/",
-    "description": "GrammarAI offers a free AI humanizer tool that transforms AI-generated text into natural, authentic, and human-like writing.",
+    "description": "GrammarAI offers a free AI summarizer tool that condenses text into natural, human-like summaries for essays, articles, and professional writing.",
     "applicationCategory": "ProductivityApplication",
     "operatingSystem": "All"
   }
   </script>
 
-   <!-- Stylesheets -->
+  <!-- Stylesheets -->
   <link rel="stylesheet" href="styles/styles.css">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body>
-    <!-- Navigation. -->
+    <!-- This is the HTML for the navigation. -->
     <nav aria-label='Main Navigation' class='menu' >
-        <h1>GrammarAI<h1>
+        <h1>GrammarAI</h1>
         <ul class="nav-bar-elements">
             <li><a href="index.html">Humanize</a></li>
             <li><a href="summarized.html">Summarize</a></li>
@@ -60,19 +58,20 @@
 
     <!-- Header Section -->
     <header>
-         <h1>Humanize your AI content</h1> 
+         <h1>Summarize your text</h1> 
          <p>
-             Transform robotic AI-generated text into natural, authentic 
-             writing with GrammarAI’s free AI humanizer tool. Perfect for 
-             blogs, essays, business reports, and professional content.
+             GrammarAI’s free AI summarizer helps you quickly condense long content 
+            into clear, concise summaries. Ideal for business reports, academic 
+            research, and personal reading-save time while keeping the essential 
+            ideas intact.
          </p>
     </header>
    
-    <!--Main Content-->
+    <!--Main content-->
     <main>
         <section class="text-area">
             <section id="textAreaContainer" class="textAreaDiv">
-                <textarea id="text-input" placeholder="Your text here..."></textarea>
+                <textarea id="text-input" placeholder="Paste or type your text here..."></textarea>
             </section>
             <section class="icon-buttons">
                 <section class="icon-box" id="icon-box">
@@ -82,16 +81,13 @@
                         <input type="file" id="upload-file" style="display: none">
                     </label>
                 </section>
-                <p id="wordCount">0/600words</p>
+                <!--<p id="wordCount">0/600words</p>-->
                 <section id="cross" >✖️</section>
             </section>     
         </section>
 
-        <!--Humanized output-->
-        <section class="text-humanized" id="text-humanized"></section>
+        <section class="text-humanized" id="text-summarized"></section>
     </main>
-
-    <!--Loader-->
     <section id="spinner" style="display: none;">
         <p>Processing...</p>
         <section class="loader"></section>
@@ -99,12 +95,12 @@
     
     <!--Action Button-->
     <section class="container-btn">
-        <button id="humanize-btn">Humanize</button>
+        <button id="humanize-btn">Summarize Now</button>
     </section>
-    
+
     <footer>
-        <p>&copy; 2025 HumanizeAI. All rights reserved.</p>
+        <p>&copy; 2025 GrammarAI. All rights reserved.</p>
     </footer>     
-    <script src="script.js"></script>   
+    <script src="summarize.js"></script>   
 </body>
 </html>

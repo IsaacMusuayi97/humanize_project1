@@ -12,6 +12,64 @@ const openai = new OpenAI({
   apiKey: process.env.DEEPSEEK_API_KEY, // Make sure this is in your .env file
 });
 
+async function summarize(text) {
+  const prompt = `You are a senior research analyst and communicator with 15+ years of experience distilling complex information into its essence for busy executives and curious minds. You specialize in clarity, accuracy, and preserving the original intent without the fluff.
+
+CORE MISSION: Transform the provided text into a summary that is instantly useful, deeply clear, and feels like a knowledgeable expert is explaining the key points to you over coffee.
+
+NON-NEGOTIABLE RULES:
+
+🚫 ABSOLUTELY NO introductory fluff (e.g., "This article is about...", "The author discusses..."). Start with the core point immediately.
+🚫 NO hedging language (e.g., "The author seems to suggest...", "It could be argued that..."). State conclusions with confidence.
+🚫 NO direct quotes from the source text. Synthesize and rephrase the ideas in your own voice.
+🚫 NO adding your own opinion, commentary, or external information not present in the provided text.
+🚫 NO "In conclusion..." or other summary clichés. The entire output is the conclusion.
+
+REQUIRED ELEMENTS:
+✅ Hierarchy of Ideas: Lead with the single most important takeaway. Follow with supporting points in descending order of importance.
+✅ Precision: Replace vague nouns and adjectives with the specific concepts from the text.
+✅ Brevity with Context: Be ruthlessly concise but never so cryptic that the meaning is lost.
+✅ Prose Rhythm: Use a mix of short, punchy sentences and longer, more complex ones to create a natural flow.
+✅ Neutral yet Engaging Tone: The summary should be objective but not robotic or boring.
+
+LENGTH & FORMAT ADJUSTMENT:
+
+TL;DR Version (Default): 2-3 sentences. The absolute core argument and its immediate implication. Use prose only.
+
+Standard Summary: One tight paragraph. The main thesis and 2-3 key supporting points. Use prose only.
+
+Detailed Recap: Two paragraphs or a structured format. The thesis, supporting points, and a crucial piece of evidence or data for each. For complex topics with highly distinct points, a single bulleted list is permitted after a leading thesis statement to maximize clarity.
+
+FINISHING: Read the summary aloud. Does it capture the "so what?" of the original text without forcing the reader to work for it? If not, rewrite.${text}`;
+  const completion = await openai.chat.completions.create({
+    model: "deepseek-chat",
+    messages: [
+      {
+        role: "system",
+        content: `You are a world-class editor known for transforming 
+        dense, information-heavy text into compelling, human-sounding 
+        summaries. Your summaries don't just condense meaning—they 
+        radically improve readability and emotional connection. 
+        You have a knack for distilling complex ideas into their 
+        clearest, most impactful essence, finding the perfect balance 
+        between professional accuracy and approachable storytelling. `
+  },
+  {
+    role: "user",
+    content: prompt
+  }
+ ],
+ temperature: 0.8,
+ max_tokens: 2000
+});
+
+   const textSummarized =
+    completion.choices?.[0]?.message?.content?.trim() ||
+    completion.choices?.[0]?.messages?.[0]?.content?.trim();
+  return textSummarized;
+  
+}
+
 async function main(text) {
   const prompt = `CRITICAL EDITING DIRECTIVES:
 
@@ -64,10 +122,10 @@ TEXT TO TRANSFORM: "${text}"`;
  max_tokens: 2000
 });
 
-   const textHumanized =
-    completion.choices?.[0]?.message?.content?.trim() ||
-    completion.choices?.[0]?.messages?.[0]?.content?.trim();
-  return textHumanized;
+  // ⚠️ FIXED: use correct path
+  const textSummarized = completion.choices[0].message.content.trim();
+  return textSummarized;
+
 }
 
 app.use(express.static(path.join(__dirname, 'public')));
@@ -85,6 +143,19 @@ app.post('/humanize', async (req, res) => {
   } catch (error) {
     console.error('DeepSeek API Error:', error);
     res.status(500).json({ error: 'Failed to process your request.' });
+  }
+});
+
+app.post('/summarize', async (req, res)=> {
+  const {text} = req.body;
+  
+  try {
+    const summarizedText = await summarize(text);
+    res.json({summarizedText});
+
+  } catch (error) {
+    console.error('DeepSeek API Error:', error);
+    res.status(500).json({error: 'Failed to process your request.'});
   }
 });
 
